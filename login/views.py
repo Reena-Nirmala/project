@@ -130,16 +130,19 @@
 # def reset_password_confirm(request):
 #     return render(request, 'reset_password_confirm.html')
 
+
 # myapp/views.py
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password, check_password
+from django.urls import reverse
 from django.utils.crypto import get_random_string
 
 from .models import User
 from django.contrib.auth import get_user_model
 
 from django.conf import settings
+import re
 
 user = get_user_model()
 
@@ -156,6 +159,12 @@ def signup(request):
             error_message = "Username, password, and confirm password are required."
             return render(request, 'signup.html', {'error_message': error_message})
 
+
+
+        if not (re.match(r'^(?=.*[a-zA-Z])[a-zA-Z0-9_]{8,}$', password)):
+            error_message = "Password should be alphanumeric, at least 8 characters long, and contain at least one alphabetic character."
+            return render(request, 'signup.html', {'error_message': error_message})
+
         if len(password) < 8:
             error_message = "Password must be at least 8 characters long."
             return render(request, 'signup.html', {'error_message': error_message})
@@ -164,18 +173,27 @@ def signup(request):
             error_message = "Passwords do not match."
             return render(request, 'signup.html', {'error_message': error_message})
 
-        hashed_password = make_password(password)
-        User.objects.create(
-            email=email,
-            username=username,
-            password=hashed_password
-        )
-        return redirect('login')
+        try:
+            hashed_password = make_password(password)
+            User.objects.create(
+                email=email,
+                username=username,
+                password=hashed_password
+            )
+            success_message = "Registration successful..!!"
+            login_url = reverse('login')
+            redirect_url = f'{login_url}?success_message={success_message}'
+            return redirect(redirect_url)
+
+        except Exception as e:
+            error_message = "User already exists."
+            return render(request, 'signup.html', {'error_message': error_message})
 
     return render(request, 'signup.html')
 
 
 def login(request):
+    success_message = request.GET.get('success_message', '')
     if request.method == 'POST':
         username = request.POST.get('username', '')
         password = request.POST.get('password', '')
@@ -183,12 +201,14 @@ def login(request):
         user = User.objects.filter(username=username).first()
         if user and check_password(password, user.password):
             # Set user as logged in
+            print(user.id)
+            request.session['user_id'] = user.id
             return redirect('index')
         else:
             error_message = "Invalid username or password."
             return render(request, 'login.html', {'error_message': error_message})
 
-    return render(request, 'login.html')
+    return render(request, 'login.html',{'success_message': success_message})
 
 
 def logout(request):

@@ -175,8 +175,11 @@
         <div class="partition">
 
             <div class="login-form">
+                {% if success_message %}
+                    <p class="success-message" style="color: darkgreen;  background-color: rgba(0,255, 0, 0.2); font-size:12px; padding:10px;">{{ success_message }}</p>
+                {% endif %}
  {% if error_message %}
-        <p class="error-message">{{ error_message }}</p>
+        <p class="error-message" style="color: red;  background-color: rgba(255, 0, 0, 0.2); font-size:12px; padding:10px;">{{ error_message }}</p>
     {% endif %}
                 <h2>Login</h2>
                 <form method="post" action="{% url 'login' %}">

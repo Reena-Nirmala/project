@@ -1,0 +1,321 @@
+<!--{% load static %}-->
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">-->
+<!--    <link rel="preconnect" href="https://fonts.googleapis.com">-->
+<!--    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>-->
+<!--    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@500&display=swap" rel="stylesheet">-->
+<!--    <title>History</title>-->
+<!--    <style>-->
+<!--        body {-->
+<!--            margin: 0;-->
+<!--            /* font-family: Arial, sans-serif; */-->
+<!--            font-family: 'Mukta', sans-serif;-->
+<!--            display: flex;-->
+<!--            flex-direction: column;-->
+<!--            background-color: rgba(223, 223, 223, 0.421);-->
+
+<!--        }-->
+
+<!--        .navbar-vertical {-->
+<!--            height: 100vh;-->
+<!--            width: 70px;-->
+<!--            background-color: white;-->
+<!--            position: fixed;-->
+<!--            display: flex;-->
+<!--            flex-direction: column;-->
+<!--            align-items: center;-->
+<!--            justify-content: center;-->
+<!--            overflow: hidden;-->
+<!--            transition: width 0.3s ease-in;-->
+<!--            z-index: 1;-->
+<!--        }-->
+
+<!--        .navbar-vertical:hover {-->
+<!--            width: 200px;-->
+<!--        }-->
+
+<!--        .navbar-vertical a {-->
+<!--            padding: 15px;-->
+<!--            text-decoration: none;-->
+<!--            color: black;-->
+<!--            text-align: center;-->
+<!--            width: 100%;-->
+<!--            box-sizing: border-box;-->
+<!--            transition: background-color 0.3s ease-in;-->
+<!--            display: flex;-->
+<!--            flex-direction: row;-->
+<!--            /* margin: 40px; */-->
+<!--            align-items: center;-->
+<!--        }-->
+
+<!--        .navbar-vertical a span {-->
+<!--            display: none;-->
+<!--        }-->
+
+<!--        .navbar-vertical:hover a span {-->
+<!--            display: block;-->
+<!--        }-->
+
+<!--        .navbar-vertical img {-->
+<!--            width: 50px;-->
+<!--            margin-bottom: 5px;-->
+<!--        }-->
+
+<!--        .navbar-horizontal {-->
+<!--            background-color: green;-->
+<!--            width: 100%;-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            justify-content: space-between;-->
+<!--            padding: 0 20px;-->
+<!--            box-sizing: border-box;-->
+<!--            z-index: 2;-->
+<!--            height: 60px;-->
+<!--            position: fixed;-->
+<!--        }-->
+
+
+<!--        .navbar-horizontal p {-->
+<!--            width: 40px;-->
+<!--            color: white;-->
+<!--        }-->
+
+<!--        .navbar-horizontal span {-->
+<!--            color: white;-->
+<!--            font-weight: bold;-->
+<!--            text-align: center;-->
+<!--            flex-grow: 1;-->
+<!--        }-->
+
+<!--        .history-text {-->
+<!--            padding: 100px;-->
+<!--            /* background-color: rgba(223, 223, 223, 0.421); */-->
+<!--            width: 100%;-->
+<!--            height: 92vh;-->
+<!--            box-sizing: border-box;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+
+<!--<body>-->
+<!--    <div class="navbar-horizontal">-->
+<!--        <p>SummarEase</p>-->
+<!--        <span id="selected-option">History</span>-->
+<!--    </div>-->
+
+<!--    <div class="navbar-vertical">-->
+<!--        <a href="{% url 'index' %}"><img src="{% static 'images/summary.png' %}" alt="Home"-->
+<!--                title="Home"><span>&nbsp;&nbsp;&nbsp;Summary</span></a>-->
+
+<!--        <a href="{% url 'summarize' %}"><img src="{% static 'images/pdf.png' %}" alt="About"-->
+<!--                title="About"><span>&nbsp;&nbsp;&nbsp;Pdf</span></a>-->
+<!--        <a href="{% url 'grammar_checker' %}"><img src="{% static 'images/grammar.png' %}" alt="Services"-->
+<!--                title="Services"><span>&nbsp;&nbsp;&nbsp;Grammar</span></a>-->
+<!--        <a href="{% url 'history' %}"><img src="{% static 'images/history.png' %}" alt="Contact"-->
+<!--                title="Contact"><span>&nbsp;&nbsp;&nbsp;History</span></a>-->
+<!--        <a href="{% url 'home' %}"><img src="{% static 'images/logout.png' %}" alt="Contact"-->
+<!--                title="Contact"><span>&nbsp;&nbsp;&nbsp;Logout</span></a>-->
+<!--    </div>-->
+<!--    </div>-->
+<!--    <div class="history-text">-->
+<!--        {% for i in history %}-->
+<!--        <h3>Input</h3>-->
+<!--        {{i.input_text}}-->
+
+<!--        <br>-->
+<!--        <br>-->
+<!--        <h3>Output</h3>-->
+<!--        {{i.generated_summary}}-->
+<!--        <br>-->
+<!--        <br>-->
+<!--        <br>-->
+<!--        {% endfor %}-->
+<!--    </div>-->
+
+
+<!--</body>-->
+
+<!--</html>-->
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@500&display=swap" rel="stylesheet">
+    <title>History</title>
+    <style>
+        body {
+            margin: 0;
+            /* font-family: Arial, sans-serif; */
+            font-family: 'Mukta', sans-serif;
+            display: flex;
+            flex-direction: column;
+            background-color: rgba(223, 223, 223, 0.421);
+            margin-bottom: 10px;
+
+        }
+
+        .navbar-vertical {
+            height: 100vh;
+            width: 70px;
+            background-color: white;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: width 0.3s ease-in;
+            z-index: 1;
+        }
+
+        .navbar-vertical:hover {
+            width: 200px;
+        }
+
+        .navbar-vertical a {
+            padding: 15px;
+            text-decoration: none;
+            color: black;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease-in;
+            display: flex;
+            flex-direction: row;
+            /* margin: 40px; */
+            align-items: center;
+        }
+
+        .navbar-vertical a span {
+            display: none;
+        }
+
+        .navbar-vertical:hover a span {
+            display: block;
+        }
+
+        .navbar-vertical img {
+            width: 50px;
+            margin-bottom: 5px;
+        }
+
+        .navbar-horizontal {
+            background-color: green;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-sizing: border-box;
+            z-index: 2;
+            height: 60px;
+            position: fixed;
+        }
+
+
+        .navbar-horizontal p {
+            width: 40px;
+            color: white;
+        }
+
+        .navbar-horizontal span {
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            flex-grow: 1;
+        }
+        .history-text {
+            padding: 100px;
+            /* background-color: rgba(223, 223, 223, 0.421); */
+            width: 100%;
+            height: 92vh;
+            box-sizing: border-box;
+        }
+
+        .history-card {
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        padding: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .history-card:hover {
+        background-color: #f0f0f0;
+    }
+
+    .history-card .content {
+        max-height: 50px; /* Set the initial height to show only a portion */
+        overflow: hidden;
+        transition: max-height 0.5s ease;
+    }
+
+    .history-card.open .content {
+        max-height: 500px; /* Set the max-height to show all content when open */
+    }
+    </style>
+</head>
+
+<body>
+    <div class="navbar-horizontal" style="background-color:white;">
+       <p style="color:green;font-size:20px; font-family:cursive; "><b>SummarEase</b></p>
+        <span id="selected-option" style="float:ltr; color:green; font-size:20px; font-family:timesroman" class="animated-text"></span>
+
+    </div>
+    <div class="navbar-vertical">
+        <a href="{% url 'index' %}"><img src="{% static 'images/summary.png' %}" alt="Home"
+                title="Home"><span>&nbsp;&nbsp;&nbsp;Summary</span></a>
+
+        <a href="{% url 'summarize' %}"><img src="{% static 'images/pdf.png' %}" alt="About"
+                title="About"><span>&nbsp;&nbsp;&nbsp;Pdf</span></a>
+        <a href="{% url 'grammar_checker' %}"><img src="{% static 'images/grammar.png' %}" alt="Services"
+                title="Services"><span>&nbsp;&nbsp;&nbsp;Grammar</span></a>
+        <a href="{% url 'history' %}"><img src="{% static 'images/history.png' %}" alt="Contact"
+                title="Contact"><span>&nbsp;&nbsp;&nbsp;History</span></a>
+        <a href="{% url 'home' %}"><img src="{% static 'images/logout.png' %}" alt="Contact"
+                title="Contact"><span>&nbsp;&nbsp;&nbsp;Logout</span></a>
+    </div>
+    </div>
+    <!-- <div class="history-text">
+        {% for i in history %}
+        <h3>Input</h3>
+        {{i.input_text}}
+
+        <br>
+        <br>
+        <h3>Output</h3>
+        {{i.generated_summary}}
+        <br>
+        <br>
+        <br>
+        {% endfor %}
+    </div> -->
+    <div class="history-text">
+
+        <div >
+            <h1 style="text-align:center;"> No history found </h1>
+        </div>
+
+    </div>
+
+    <script>
+
+    </script>
+
+
+</body>
+
+</html>

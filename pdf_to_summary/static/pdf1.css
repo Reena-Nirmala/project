@@ -145,6 +145,7 @@ ul li:hover a{
     margin-top: 20px;
     height: 73%;
     border-radius:20px;
+    margin-bottom:18px;
     /*transition: flex 0.5s;  Smooth transition for width change */
   }
 

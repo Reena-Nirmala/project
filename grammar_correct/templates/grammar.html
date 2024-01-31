@@ -10,24 +10,113 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
 
     <link rel="stylesheet" href="{% static 'grammar.css' %}">
-</head>
-<body style="background-color:#cfdcf5;">
-    <div id="leftPane" class="sidebar" onclick="toggleLeftPane()">
-        
-        <header><h3>SummarEase</h3></header>
-        <ul>
-            <li ><a href="{% url 'index' %}"><i class="fas fa-file-alt icon"style="color: rgb(0, 138, 119);"></i> Text Summarizer</a></li>
+    <style>
+ body {
+            margin: 0;
+            /* font-family: Arial, sans-serif; */
+            font-family: 'Mukta', sans-serif;
+            display: flex;
+            flex-direction: column;
+            background-color: rgba(223, 223, 223, 0.421);
 
-            <li><a href="{% url 'summarize' %}"><i class="fas fa-file-pdf icon"style="color: blue;"></i> PdfSummarizer</a></li>
-    
-            <li><a href="{% url 'grammar_checker' %}"><i class="fas fa-code icon"style="color:green"></i> GrammarChecker</a></li>
-            <li><a href="{% url 'profile' %}" ><i class="fas fa-user icon"></i> Profile</a></li>
-    
-            <li></i><a href="{% url 'home' %}" ><i class="fas fa-sign-out-alt icon" style="color:red"></i> Logout</a></li>
-        </ul>
-    </div>    
-    
-    <div id="mainContent" style="background-color:white;">
+        }
+
+        .navbar-vertical {
+            height: 100vh;
+            width: 70px;
+            background-color: white;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: width 0.3s ease-in;
+            z-index: 1;
+        }
+
+        .navbar-vertical:hover {
+            width: 200px;
+            /* padding: 20px; */
+
+        }
+
+        .navbar-vertical a {
+            padding: 15px;
+            text-decoration: none;
+            color: black;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease-in;
+            display: flex;
+            flex-direction: row;
+            /* margin: 4px; */
+            align-items: center;
+        }
+
+        .navbar-vertical a span {
+            display: none;
+        }
+
+        .navbar-vertical:hover a span {
+            display: block;
+        }
+
+        .navbar-vertical img {
+            width: 50px;
+            margin-bottom: 5px;
+        }
+
+        .navbar-horizontal {
+            background-color: green;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-sizing: border-box;
+            z-index: 2;
+            height: 60px;
+            position: fixed;
+        }
+
+
+        .navbar-horizontal p {
+            width: 40px;
+            color: white;
+        }
+
+        .navbar-horizontal span {
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            flex-grow: 1;
+        }
+    </style>
+</head>
+
+<body style="background-color:#f0f5f5">
+    <div class="navbar-horizontal" style="background-color:white;">
+       <p style="color:green;font-size:20px; font-family:cursive; "><b>SummarEase</b></p>
+        <span id="selected-option" style="float:ltr; color:green; font-size:20px; font-family:timesroman" class="animated-text">Refine your writing with precision using SummarEase..!!</span>
+
+    </div>
+
+    <div class="navbar-vertical">
+        <a href="{% url 'index' %}"><img src="{% static 'images/summary.png' %}" alt="Home"
+                title="Home"><span>&nbsp;&nbsp;&nbsp;Summary</span></a>
+
+        <a href="{% url 'summarize' %}"><img src="{% static 'images/pdf.png' %}" alt="About"
+                title="About"><span>&nbsp;&nbsp;&nbsp;Pdf</span></a>
+        <a href="{% url 'grammar_checker' %}"><img src="{% static 'images/grammar.png' %}" alt="Services"
+                title="Services"><span>&nbsp;&nbsp;&nbsp;Grammar</span></a>
+        <a href="{% url 'history' %}"><img src="{% static 'images/history.png' %}" alt="Contact"
+                title="Contact"><span>&nbsp;&nbsp;&nbsp;History</span></a>
+        <a href="{% url 'home' %}"><img src="{% static 'images/logout.png' %}" alt="Contact"
+                title="Contact"><span>&nbsp;&nbsp;&nbsp;Logout</span></a>
+    </div>
+    <div id="mainContent" style="background-color:white; margin-top:10%">
         <h2 style="text-align: center; color:green;">GrammarChecker and corrector</h2>
             <div class="main" style="margin-top:-1% ;">
         <div class="left" style="background-color:white;">

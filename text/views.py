@@ -37,11 +37,16 @@ def output(request):
 
 
     # Save the generated summary to the database
-    text_summary = TextSummary.objects.create(
-        user_id=request.user,
-        input_text=data,
-        generated_summary=text
-    )
+    # text_summary = TextSummary.objects.create(
+    #     user_id=request.user,
+    #     input_text=data,
+    #     generated_summary=text
+    # )
+
+    user_id = request.session.get('user_id')
+
+    summary = TextSummary(user1=user_id, input_text=data, generated_summary=text)
+    summary.save()
 
     # Create a new summary associated with the user (if available)
 

@@ -392,6 +392,9 @@
         <div class="partition">
             <div class="login-form">
                 <h2>Register</h2>
+                 {% if error_message %}
+                    <p class="error-message" style="color: red;  background-color: rgba(255, 0, 0, 0.2); font-size:12px; padding:10px;">{{ error_message }}</p>
+                {% endif %}
                 <form method="post" action="{% url 'signup' %}">
                     {% csrf_token %}
                     <label for="username">Username:</label>
