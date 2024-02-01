@@ -202,7 +202,7 @@
     </div>
     </div>
 
-    <div id="mainContent" style="background-color:white; margin-top:6%">
+    <div id="mainContent" style="background-color:white; margin-top:2%; ">
         <div class="top" style="background-color:green;">
             <div class="linesContainer">
 
@@ -259,7 +259,7 @@
             </div>
 
             <div class="main">
-            <div class="left" style ="border-radius: 10px; box-shadow:none; margin-bottom:8%">
+            <div class="left" style ="border-radius: 10px; box-shadow:none; margin-bottom:10%; margin-top:10px">
 
 
             <form id="pdfForm" action="{% url 'summarize' %}" method="post" enctype="multipart/form-data">
@@ -277,7 +277,7 @@
         <p id="pdf-name" style="color: rgb(6, 84, 84); margin-left:-60%; display: none; "><b>{{ input }}</b></p>
     </div>
 
-    <button id="extract-button" type="submit" style="color:white; background-color:green">Extract Content</button>
+    <button id="extract-button" type="submit" style="color:white; background-color:green">Summarize</button>
 </form>
 
             </div>
@@ -287,7 +287,7 @@
             {% if result %}
 
             <h3>Summary:</h3>
-             <p id="output">{{ result }}</p>
+             <textarea id="output">{{ result }}</textarea>
 
              {% endif %}
         </div>

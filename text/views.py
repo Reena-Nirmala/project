@@ -12,7 +12,7 @@ def index(request):
 
 text = ''
 
-@login_required()
+
 def output(request):
     api_url = "https://api-inference.huggingface.co/models/facebook/bart-large-cnn"
     api_token = "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"
