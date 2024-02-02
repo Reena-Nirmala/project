@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-797hk&vu1n5i_y)tf_43-+jserxbfr5mhhou52x#=7(%l^a_0q
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -81,11 +81,24 @@ WSGI_APPLICATION = 'Text_app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'djongo',
+#         'NAME':'text_appdb',
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'djongo',
-        'NAME':'text_appdb',
-    }
+        'default': {
+            'ENGINE': 'djongo',
+            'NAME': 'text_app',
+            'ENFORCE_SCHEMA': False,
+            'CLIENT': {
+                'host': 'mongodb+srv://django:1234@cluster0.vldruo8.mongodb.net/?retryWrites=true&w=majority',
+                # 'host': 'mongodb+srv://<username>:<password>@<atlas cluster>/<myFirstDatabase>?retryWrites=true&w=majority'
+
+            }  
+        }
 }
 
 # settings.py
