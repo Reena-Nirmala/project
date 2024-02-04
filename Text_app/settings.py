@@ -88,17 +88,31 @@ WSGI_APPLICATION = 'Text_app.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-        'default': {
-            'ENGINE': 'djongo',
-            'NAME': 'text_app',
-            'ENFORCE_SCHEMA': False,
-            'CLIENT': {
-                'host': 'mongodb+srv://django:1234@cluster0.vldruo8.mongodb.net/?retryWrites=true&w=majority',
-                # 'host': 'mongodb+srv://<username>:<password>@<atlas cluster>/<myFirstDatabase>?retryWrites=true&w=majority'
+# DATABASES = {
+#         'default': {
+#             'ENGINE': 'djongo',
+#             'NAME': 'text_app',
+#             'ENFORCE_SCHEMA': False,
+#             'CLIENT': {
+#                 'host': 'mongodb+srv://django:1234@cluster0.vldruo8.mongodb.net/?retryWrites=true&w=majority',
+#                 # 'host': 'mongodb+srv://<username>:<password>@<atlas cluster>/<myFirstDatabase>?retryWrites=true&w=majority'
 
-            }  
+#             }  
+#         }
+# }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'djongo',
+        'NAME': 'text_app',
+        'CLIENT': {
+            'host': os.environ.get('MONGO_URI', 'mongodb://admin:password@mongodb:27017/'),
+            'port': 27017,
+            'username': 'admin',
+            'password': 'password',
+            'authSource': 'admin',
         }
+    }
 }
 
 # settings.py
