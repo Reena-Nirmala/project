@@ -1,7 +1,7 @@
 
 FROM python:3.9 AS builder
  
-# Set the working directory in the container
+
 WORKDIR /django
  
 # Copy the requirements file into the container at /django
