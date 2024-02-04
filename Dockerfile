@@ -4,7 +4,7 @@ FROM python:3.9 AS builder
 
 WORKDIR /django
  
-# Copy the requirements file into the container at /django
+
 COPY requirements.txt requirements.txt
  
 # Install any needed packages specified in requirements.txt
