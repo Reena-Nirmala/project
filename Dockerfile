@@ -23,8 +23,7 @@ WORKDIR /django
 COPY requirements.txt requirements.txt
 
 # Install Python dependencies
-RUN pip install --upgrade pip && \
-    pip wheel --no-cache-dir --no-deps --wheel-dir /wheels -r requirements.txt
+RUN pip install --upgrade pip 
 
 # Second stage: Runtime environment
 FROM amazonlinux:latest
@@ -33,11 +32,11 @@ FROM amazonlinux:latest
 WORKDIR /django
 
 # Copy the dependencies and application code from the builder stage
-COPY --from=builder /wheels /wheels
+COPY --from=builder /django /django
 COPY . .
 
 # Install Python dependencies from the wheels directory
-RUN pip install --no-cache /wheels/*
+
 
 # Install Java using yum
 RUN yum install -y java-11-amazon-corretto
@@ -47,7 +46,6 @@ ENV JAVA_HOME /usr/lib/jvm/java-11-amazon-corretto
 ENV PATH $PATH:$JAVA_HOME/bin
 
 # Remove the /wheels directory
-RUN rm -rf /wheels
 
 # Make port 8002 available to the world outside this container
 EXPOSE 8002
