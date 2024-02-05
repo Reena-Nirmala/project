@@ -8,7 +8,7 @@
 # FROM python:3.9-slim
 # # Set the working directory in the container
 # WORKDIR /django
-# # Copy the dependencies and application code from the builder stage
+# Copy the dependencies and application code from the builder stage
 # COPY --from=builder /wheels /wheels
 # COPY . .
 # # Install any dependencies from the wheels directory
