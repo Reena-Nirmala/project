@@ -22,21 +22,21 @@ WORKDIR /django
 COPY requirements.txt requirements.txt
 
 # Install Python dependencies
-RUN pip install --upgrade pip && \
-    pip wheel --no-cache-dir --no-deps --wheel-dir /wheels -r requirements.txt
+# RUN pip install --upgrade pip && \
+#     pip wheel --no-cache-dir --no-deps --wheel-dir /wheels -r requirements.txt
 
 # Second stage: Runtime environment
-FROM amazonlinux:latest
+FROM python:3.9-slim
 
 # Set the working directory in the container
 WORKDIR /django
 
 # Copy the dependencies and application code from the builder stage
-COPY --from=builder /wheels /wheels
+COPY --from=builder /django /django
 COPY . .
 
 # Install Python dependencies from the wheels directory
-RUN pip install --no-cache /wheels/*
+# RUN pip install --no-cache /wheels/*
 
 # Install Java OpenJDK
 RUN yum install -y java-1.8.0-openjdk
