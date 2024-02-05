@@ -26,7 +26,7 @@ COPY requirements.txt requirements.txt
 #     pip wheel --no-cache-dir --no-deps --wheel-dir /wheels -r requirements.txt
 
 # Second stage: Runtime environment
-FROM python:3.9-slim
+FROM amazonlinux:latest
 
 # Set the working directory in the container
 WORKDIR /django
