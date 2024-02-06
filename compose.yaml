@@ -28,6 +28,12 @@ services:
       - mongodb
     environment:
       MONGO_URI: 'mongodb://admin:password@mongodb:27017/'
+
+  java_dependency:
+    image: openjdk:latest  # Use the latest OpenJDK image
+    command: tail -f /dev/null  # Keep the container running, since you don't have a Java application
+    depends_on:
+      - mongodb
  
 volumes:
   mongodb_data:
