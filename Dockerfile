@@ -1,3 +1,36 @@
+# First stage: Build dependencies
+FROM openjdk:11 AS builder
+WORKDIR /django
+# Install Python
+RUN apt-get update && apt-get install -y python3 python3-pip
+COPY requirements.txt requirements.txt
+# Install any needed packages specified in requirements.txt
+RUN pip3 install --upgrade pip && \
+    pip3 install --no-cache-dir --no-deps -r requirements.txt
+# Second stage: Final image
+FROM python:3.9-slim
+# Set the working directory in the container
+WORKDIR /django
+# Copy the application code from the builder stage
+COPY . .
+ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:8002"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # FROM python:3.9 AS builder
 # WORKDIR /django
 # COPY requirements.txt requirements.txt
@@ -16,32 +49,6 @@
 # ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:8002"]
 # First stage: Build dependencies
 # First stage: Build dependencies
-FROM python:3.9 AS builder
-
-WORKDIR /django
-
-# Install Java
-RUN apt-get update && apt-get install -y default-jre
-
-COPY requirements.txt requirements.txt
-
-# Install any needed packages specified in requirements.txt
-RUN pip install --upgrade pip && \
-    pip install --no-cache-dir --no-deps -r requirements.txt
-
-# Second stage: Final image
-FROM python:3.9-slim
-
-# Set the working directory in the container
-WORKDIR /django
-
-# Install Java
-RUN apt-get update && apt-get install -y default-jre
-
-# Copy the application code from the builder stage
-COPY . .
-
-ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:8002"]
 
 # FROM python:3.9 AS builder
 
