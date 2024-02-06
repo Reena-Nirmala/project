@@ -1,4 +1,10 @@
 # First stage: Build dependencies
+
+FROM openjdk:11-jre-slim
+WORKDIR /django
+COPY . /django
+CMD ["java", "-jar", "your-application.jar"]
+
 FROM python:3.9-slim AS builder
 WORKDIR /django
 COPY requirements.txt requirements.txt
@@ -9,6 +15,7 @@ WORKDIR /django
 COPY . .
 RUN pip install --no-cache -r requirements.txt
 ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:8002"]
+
 
 # FROM python:3.9 AS builder
 # WORKDIR /django
