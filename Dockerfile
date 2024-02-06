@@ -1,20 +1,47 @@
+# FROM python:3.9 AS builder
+# WORKDIR /django
+# COPY requirements.txt requirements.txt
+# # Install any needed packages specified in requirements.txt
+# RUN pip install --upgrade pip && \
+#     pip wheel --no-cache-dir --no-deps --wheel-dir /wheels -r requirements.txt
+# # Second stage of the multi-stage build
+# FROM python:3.9-slim
+# # Set the working directory in the container
+# WORKDIR /django
+# # Copy the dependencies and application code from the builder stage
+# COPY --from=builder /wheels /wheels
+# COPY . .
+# # Install any dependencies from the wheels directory
+# RUN pip install --no-cache /wheels/*
+# ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:8002"]
+# First stage: Build dependencies
+# First stage: Build dependencies
 FROM python:3.9 AS builder
+
 WORKDIR /django
+
+# Install Java
+RUN apt-get update && apt-get install -y default-jre
+
 COPY requirements.txt requirements.txt
+
 # Install any needed packages specified in requirements.txt
 RUN pip install --upgrade pip && \
-    pip wheel --no-cache-dir --no-deps --wheel-dir /wheels -r requirements.txt
-# Second stage of the multi-stage build
+    pip install --no-cache-dir --no-deps -r requirements.txt
+
+# Second stage: Final image
 FROM python:3.9-slim
+
 # Set the working directory in the container
 WORKDIR /django
-# Copy the dependencies and application code from the builder stage
-COPY --from=builder /wheels /wheels
+
+# Install Java
+RUN apt-get update && apt-get install -y default-jre
+
+# Copy the application code from the builder stage
 COPY . .
-# Install any dependencies from the wheels directory
-RUN pip install --no-cache /wheels/*
+
 ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:8002"]
-# First stage: Build dependencies
 
 # FROM python:3.9 AS builder
 
