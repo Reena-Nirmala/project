@@ -1,16 +1,14 @@
-FROM openjdk:11 AS builder
+# First stage: Build dependencies
+FROM python:3.9-slim AS builder
 WORKDIR /django
-RUN apt-get update && apt-get install -y python3 python3-pip
 COPY requirements.txt requirements.txt
-RUN pip3 install --upgrade pip && \
-    pip3 install --no-cache-dir --no-deps -r requirements.txt
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir --no-deps -r requirements.txt
 FROM python:3.9-slim
 WORKDIR /django
 COPY . .
-RUN pip3 install Django djongo
-ENV PYTHONPATH /django
-ENTRYPOINT ["python3", "manage.py", "runserver", "0.0.0.0:8002"]
-
+RUN pip install --no-cache -r requirements.txt
+ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:8002"]
 
 # FROM python:3.9 AS builder
 # WORKDIR /django
