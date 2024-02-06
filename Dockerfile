@@ -5,22 +5,53 @@
 # COPY . /django
 # CMD ["java", "-jar", "your-application.jar"]
 
+# FROM python:3.9-slim AS builder
+# WORKDIR /django
+# COPY requirements.txt requirements.txt
+# RUN pip install --upgrade pip && \
+#     pip install --no-cache-dir --no-deps -r requirements.txt
+
+# FROM python:3.9-slim
+# WORKDIR /django
+# COPY . .
+# RUN pip install --no-cache -r requirements.txt
+
+# ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:8002"]
+
+# First stage: Build dependencies
 FROM python:3.9-slim AS builder
+
 WORKDIR /django
+
+# Copy only the requirements file
 COPY requirements.txt requirements.txt
+
+# Install any needed packages specified in requirements.txt
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir --no-deps -r requirements.txt
 
+# Second stage: Final image with Python and OpenJDK 8
 FROM python:3.9-slim
-WORKDIR /django
-COPY . .
-RUN pip install --no-cache -r requirements.txt
-RUN yum install -y \
-   java-1.8.0-openjdk \
-   java-1.8.0-openjdk-devel
 
-ENV JAVA_HOME /usr/lib/jvm/java-1.8.0-openjdk/
+# Install OpenJDK 8
+RUN apt-get update && apt-get install -y \
+    openjdk-8-jre \
+    openjdk-8-jdk
+
+# Set the JAVA_HOME environment variable
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
+
+# Set the working directory in the container
+WORKDIR /django
+
+# Copy the application code from the builder stage
+COPY . .
+
+# Install any dependencies directly
+RUN pip install --no-cache -r requirements.txt
+
 ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:8002"]
+
 
 
 # FROM python:3.9 AS builder
