@@ -274,11 +274,12 @@ def reset_password(request, token):
             return render(request, 'reset_password.html', {'error_message': error_message, 'token': token})
 
         # Update the user's password and reset the token
-        user.set_password(new_password)
-        user.reset_password_token = None
-        user.save()
+        else:
+            user.set_password(new_password)
+            user.reset_password_token = None
+            user.save()
 
-        return redirect('reset_password_confirm')
+            return redirect('reset_password_confirm')
 
     return render(request, 'reset_password.html', {'token': token})
 
