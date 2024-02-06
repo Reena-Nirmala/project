@@ -1,19 +1,25 @@
 # First stage: Build dependencies
 
-FROM openjdk:11-jre-slim
-WORKDIR /django
-COPY . /django
-CMD ["java", "-jar", "your-application.jar"]
+# FROM openjdk:11-jre-slim
+# WORKDIR /django
+# COPY . /django
+# CMD ["java", "-jar", "your-application.jar"]
 
 FROM python:3.9-slim AS builder
 WORKDIR /django
 COPY requirements.txt requirements.txt
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir --no-deps -r requirements.txt
+
 FROM python:3.9-slim
 WORKDIR /django
 COPY . .
 RUN pip install --no-cache -r requirements.txt
+RUN yum install -y \
+   java-1.8.0-openjdk \
+   java-1.8.0-openjdk-devel
+
+ENV JAVA_HOME /usr/lib/jvm/java-1.8.0-openjdk/
 ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:8002"]
 
 
