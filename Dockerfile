@@ -18,6 +18,37 @@
 
 # ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:8002"]
 
+##################################3
+
+# Use an official Ubuntu image as a parent image
+FROM ubuntu:20.04
+
+# Install Python, pip, and default JRE using apt
+RUN apt-get update && \
+    apt-get install -y python3 python3-pip default-jre
+
+# Set the working directory to /django
+WORKDIR /django
+
+# Copy requirements.txt to the container at /django
+COPY requirements.txt requirements.txt
+
+# Install Python dependencies
+RUN pip3 install --no-cache-dir --no-deps -r requirements.txt
+
+# Copy the current directory contents into the container at /django
+COPY . .
+
+# Make port 8002 available to the world outside this container
+EXPOSE 8002
+
+# Define environment variable
+ENV JAVA_HOME /usr/lib/jvm/default-java
+
+# Run Django application
+ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:8002"]
+
+
 # First stage: Build dependencies
 # FROM python:3.9-slim AS builder
 
@@ -51,29 +82,6 @@
 # ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:8002"]
 
 # Use an official CentOS image as a parent image
-FROM centos:8
-
-# Install Python, pip, and default JRE using yum
-RUN yum -y update && \
-    yum -y install python3 python3-pip java-1.8.0-openjdk
-
-# Set the working directory to /app
-WORKDIR /django
-
-# Copy the current directory contents into the container at /app
-COPY . /django
-
-# Install any needed packages specified in requirements.txt
-RUN pip3 install --no-cache-dir -r requirements.txt
-
-# Make port 8000 available to the world outside this container
-EXPOSE 8002
-
-# Define environment variable
-ENV JAVA_HOME /usr/lib/jvm/java-1.8.0-openjdk
-
-# Run app.py when the container launches
-CMD ["python3", "manage.py", "runserver", "0.0.0.0:8002"]
 
 
 # FROM python:3.9 AS builder
