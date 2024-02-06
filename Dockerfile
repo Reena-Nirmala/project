@@ -34,12 +34,7 @@ RUN pip install --upgrade pip && \
 FROM python:3.9-slim
 
 # Install OpenJDK 8
-RUN yum update && yum install -y \
-    openjdk-8-jre \
-    openjdk-8-jdk
 
-# Set the JAVA_HOME environment variable
-ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 
 # Set the working directory in the container
 WORKDIR /django
