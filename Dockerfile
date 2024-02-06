@@ -1,4 +1,4 @@
-# First stage: Build dependencies
+
 FROM openjdk:11 AS builder
 
 WORKDIR /django
@@ -28,8 +28,6 @@ RUN pip3 install Django
 ENV PYTHONPATH /django
 
 ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:8002"]
-# First stage: Build dependencies
-
 
 
 
