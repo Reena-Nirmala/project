@@ -19,37 +19,61 @@
 # ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:8002"]
 
 # First stage: Build dependencies
-FROM python:3.9-slim AS builder
+# FROM python:3.9-slim AS builder
 
+# WORKDIR /django
+
+# # Copy only the requirements file
+# COPY requirements.txt requirements.txt
+
+# # Install any needed packages specified in requirements.txt
+
+# RUN apt-get update && apt-get install -y default-jre
+
+# RUN pip install --upgrade pip && \
+#     pip install --no-cache-dir --no-deps -r requirements.txt
+
+# # Second stage: Final image with Python and OpenJDK 8
+# FROM python:3.9-slim
+
+# # Install OpenJDK 8
+
+
+# # Set the working directory in the container
+# WORKDIR /django
+
+# # Copy the application code from the builder stage
+# COPY . .
+
+# # Install any dependencies directly
+# RUN pip install --no-cache -r requirements.txt
+
+# ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:8002"]
+
+# Use an official CentOS image as a parent image
+FROM centos:8
+
+# Install Python, pip, and default JRE using yum
+RUN yum -y update && \
+    yum -y install python3 python3-pip java-1.8.0-openjdk
+
+# Set the working directory to /app
 WORKDIR /django
 
-# Copy only the requirements file
-COPY requirements.txt requirements.txt
+# Copy the current directory contents into the container at /app
+COPY . /django
 
 # Install any needed packages specified in requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
 
-RUN apt-get update && apt-get install -y default-jre
+# Make port 8000 available to the world outside this container
+EXPOSE 8002
 
-RUN pip install --upgrade pip && \
-    pip install --no-cache-dir --no-deps -r requirements.txt
+# Define environment variable
+ENV JAVA_HOME /usr/lib/jvm/java-1.8.0-openjdk
 
-# Second stage: Final image with Python and OpenJDK 8
-FROM python:3.9-slim
-
-# Install OpenJDK 8
-
-
-# Set the working directory in the container
-WORKDIR /django
-
-# Copy the application code from the builder stage
-COPY . .
-
-# Install any dependencies directly
-RUN pip install --no-cache -r requirements.txt
-
-ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:8002"]
-
+# Run app.py when the container launches
+CMD ["python3", "manage.py", "runserver", "0.0.0.0:8002"]
 
 
 # FROM python:3.9 AS builder
