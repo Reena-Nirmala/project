@@ -27,6 +27,9 @@ WORKDIR /django
 COPY requirements.txt requirements.txt
 
 # Install any needed packages specified in requirements.txt
+
+RUN apt-get update && apt-get install -y default-jre
+
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir --no-deps -r requirements.txt
 
