@@ -1,5 +1,35 @@
 # First stage: Build dependencies
 FROM openjdk:11 AS builder
+
+WORKDIR /django
+
+# Install Python
+RUN apt-get update && apt-get install -y python3 python3-pip
+
+COPY requirements.txt requirements.txt
+
+# Install any needed packages specified in requirements.txt
+RUN pip3 install --upgrade pip && \
+    pip3 install --no-cache-dir --no-deps -r requirements.txt
+
+# Second stage: Final image
+FROM python:3.9-slim
+
+# Set the working directory in the container
+WORKDIR /django
+
+# Copy the application code from the builder stage
+COPY . .
+
+# Install Django
+RUN pip3 install Django
+
+# Set the PYTHONPATH
+ENV PYTHONPATH /django
+
+ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:8002"]
+# First stage: Build dependencies
+FROM openjdk:11 AS builder
 WORKDIR /django
 # Install Python
 RUN apt-get update && apt-get install -y python3 python3-pip
