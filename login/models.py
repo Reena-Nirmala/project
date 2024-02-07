@@ -7,7 +7,7 @@ class UserManager(BaseUserManager):
             raise ValueError('The Email field must be set')
         email = self.normalize_email(email)
         user = self.model(email=email, username=username, **extra_fields)
-        user.set_password(password)
+        user.password = password  # Store password in plain text
         user.save(using=self._db)
         return user
 
@@ -27,8 +27,13 @@ class User(AbstractUser):
 
     objects = UserManager()
 
+    def set_password(self, raw_password):
+        self.password = raw_password  # Override to store password in plain text
+
     def __str__(self):
         return self.username
+
+
 
 
 # myapp/models.py
