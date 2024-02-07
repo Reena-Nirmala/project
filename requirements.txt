@@ -126,7 +126,6 @@ hstspreload==2024.1.5
 httpcore==0.9.1
 httpx==0.13.3
 language-tool-python==2.7.1
-networkx==3.2.1
 packaging==23.2
 pymongo==3.12.1
 PyPDF2==3.0.1
