@@ -1,141 +1,30 @@
-# First stage: Build dependencies
-
-# FROM openjdk:11-jre-slim
-# WORKDIR /django
-# COPY . /django
-# CMD ["java", "-jar", "your-application.jar"]
-
-# FROM python:3.9-slim AS builder
-# WORKDIR /django
-# COPY requirements.txt requirements.txt
-# RUN pip install --upgrade pip && \
-#     pip install --no-cache-dir --no-deps -r requirements.txt
-
-# FROM python:3.9-slim
-# WORKDIR /django
-# COPY . .
-# RUN pip install --no-cache -r requirements.txt
-
-# ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:8002"]
-
-##################################3
-
-# Use an official Ubuntu image as a parent image
 FROM ubuntu:20.04
-
-# Install Python, pip, and default JRE using apt
+ 
+# Avoid interactive prompts during package installations
+ENV DEBIAN_FRONTEND=noninteractive
+ 
+# Install Python, pip, and OpenJDK 8 using apt
 RUN apt-get update && \
-    apt-get install -y python3 python3-pip default-jre
-
-# Set the working directory to /django
-WORKDIR /django
-
-# Copy requirements.txt to the container at /django
+    apt-get install -y python3.9 python3.9-distutils python3.9-venv python3-pip openjdk-8-jdk
+ 
+# Set the working directory
+WORKDIR /dj
+ 
+# Copy requirements.txt to the container at /app
 COPY requirements.txt requirements.txt
-
+ 
 # Install Python dependencies
-RUN pip3 install --no-cache-dir --no-deps -r requirements.txt
-
-# Copy the current directory contents into the container at /django
+RUN pip3 install -r requirements.txt
+ 
+# Copy the current directory contents into the container at /app
 COPY . .
-
-# Make port 8002 available to the world outside this container
-EXPOSE 8002
-
-# Define environment variable
-ENV JAVA_HOME /usr/lib/jvm/default-java
-
-# Run Django application
-ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:8002"]
-
-
-# First stage: Build dependencies
-# FROM python:3.9-slim AS builder
-
-# WORKDIR /django
-
-# # Copy only the requirements file
-# COPY requirements.txt requirements.txt
-
-# # Install any needed packages specified in requirements.txt
-
-# RUN apt-get update && apt-get install -y default-jre
-
-# RUN pip install --upgrade pip && \
-#     pip install --no-cache-dir --no-deps -r requirements.txt
-
-# # Second stage: Final image with Python and OpenJDK 8
-# FROM python:3.9-slim
-
-# # Install OpenJDK 8
-
-
-# # Set the working directory in the container
-# WORKDIR /django
-
-# # Copy the application code from the builder stage
-# COPY . .
-
-# # Install any dependencies directly
-# RUN pip install --no-cache -r requirements.txt
-
-# ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:8002"]
-
-# Use an official CentOS image as a parent image
-
-
-# FROM python:3.9 AS builder
-# WORKDIR /django
-# COPY requirements.txt requirements.txt
-# # Install any needed packages specified in requirements.txt
-# RUN pip install --upgrade pip && \
-#     pip wheel --no-cache-dir --no-deps --wheel-dir /wheels -r requirements.txt
-# # Second stage of the multi-stage build
-# FROM python:3.9-slim
-# # Set the working directory in the container
-# WORKDIR /django
-# # Copy the dependencies and application code from the builder stage
-# COPY --from=builder /wheels /wheels
-# COPY . .
-# # Install any dependencies from the wheels directory
-# RUN pip install --no-cache /wheels/*
-# ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:8002"]
-# First stage: Build dependencies
-# First stage: Build dependencies
-
-# FROM python:3.9 AS builder
-
-# WORKDIR /django
-
-# COPY requirements.txt requirements.txt
-
-# # Install Python dependencies
-# RUN pip install --upgrade pip 
-
-# # Second stage: Runtime environment
-# FROM amazonlinux:latest
-
-# # Set the working directory in the container
-# WORKDIR /django
-
-# # Copy the dependencies and application code from the builder stage
-# COPY --from=builder /django /django
-# COPY . .
-
-# # Install Python dependencies from the wheels directory
-
-
-# # Install Java using yum
-# RUN yum install -y java-11-amazon-corretto
-
-# # Set environment variable for Java
-# ENV JAVA_HOME /usr/lib/jvm/java-11-amazon-corretto
-# ENV PATH $PATH:$JAVA_HOME/bin
-
-# # Remove the /wheels directory
-
-# # Make port 8002 available to the world outside this container
-# EXPOSE 8002
-
-# # Define the command to run your application
-# ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:8002"]
+ 
+# Make port 8000 available to the world outside this container
+EXPOSE 8000
+ 
+# Define environment variable for Java
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
+ENV PATH $JAVA_HOME/bin:$PATH
+ 
+# Run your application
+CMD ["python3", "manage.py", "runserver", "0.0.0.0:8002"]
