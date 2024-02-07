@@ -236,11 +236,12 @@ def forgot_password(request):
         if user:
             # Generate a unique token and save it to the user model
             token = get_random_string(length=32)
-            user.reset_password_token = token
-            user.save()
+            User.objects.filter(email=email).update(
+                reset_password_token=token,
+            )
 
             # Send the password reset email with the token
-            reset_link = f"http://127.0.0.1:8000/SummarEase/reset_password/{token}/"
+            reset_link = f"http://65.2.123.80:8002/SummarEase/reset_password/{token}/"
 
             send_mail(
                 'Reset Password',
@@ -274,12 +275,14 @@ def reset_password(request, token):
             return render(request, 'reset_password.html', {'error_message': error_message, 'token': token})
 
         # Update the user's password and reset the token
-        else:
-            user.set_password(new_password)
-            user.reset_password_token = None
-            user.save()
+        hashed_password = make_password(new_password)
+        # Update the user's password and reset the token
+        User.objects.filter(reset_password_token=token).update(
+            password=hashed_password,
+            reset_password_token=None,
+        )
 
-            return redirect('reset_password_confirm')
+        return redirect('reset_password_confirm')
 
     return render(request, 'reset_password.html', {'token': token})
 
