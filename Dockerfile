@@ -4,7 +4,7 @@ RUN apt-get update && \
     apt-get install -y python3.9 python3.9-distutils python3.9-venv python3-pip openjdk-8-jdk
  
 WORKDIR /dj
- #
+ 
 COPY requirements.txt requirements.txt
 
 RUN pip3 install -r requirements.txt
