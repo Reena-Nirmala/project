@@ -175,14 +175,14 @@ ul li:hover a{
     /* width: calc(100% - 70px); Adjusted width for the main content */
     display: flex;
     /* align-items: stretch; */
-    flex-direction: column;
+/*     flex-direction: column; */
     margin-left: 18%;
     margin-top: 6%;
     margin-right: 5%;
     border: 1px solid rgb(255, 255, 255);
     /* background-color: #3da2a972;
     border-radius: 20px;
-    box-shadow: 1px 5px 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 1px 5px 10px rgba(0, 0, 0, 0.5);*/
 
 
 }
