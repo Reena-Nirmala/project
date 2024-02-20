@@ -6,7 +6,6 @@
 # pytz==2023.3
 # transformers==4.35.2
 # language-tool-python==2.7.1
-# torch
 
 
 #Django==3.2.15
