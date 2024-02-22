@@ -43,15 +43,25 @@ def summarize(request):
             api_url = "https://api-inference.huggingface.co/models/facebook/bart-large-cnn"
             api_token = "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"
 
-            pdf_document = PdfDocument(pdf_file=pdf_file, pages_to_summarize=pages_to_summarize)
-            pdf_document.save()
+            user_id = request.session.get('user_id')
+
+            pdf_document = PdfDocument(user1=user_id,pdf_file=pdf_file, pages_to_summarize=pages_to_summarize)
+
+
+            
+            pdf_document.save()   
 
             pdf_path = pdf_document.pdf_file.path
 
             summarized_text = summarize_pdf_api(pdf_path, pages_to_summarize, api_url, api_token)
 
-            pdf_document.summarized_text = summarized_text
+            # pdf_document = PdfDocument(user1=user_id,pdf_file=pdf_file, pages_to_summarize=pages_to_summarize,summarized_text = summarized_text)
+            # # pdf_document.
             # pdf_document.save()
+            # Update existing pdf_document object with summarized_text
+            pdf_document.summarized_text = summarized_text
+            pdf_document.save()
+
             request.session['text_for_speech'] = summarized_text
             request.session['summarized_text'] = summarized_text
 
@@ -98,7 +108,6 @@ def translate_summary1(request):
     else:
         # If 'summarized_text' is not present, handle accordingly
         return render(request, 'input.html', {"result": "Summarized text not found in session"})
-
 
 
 
