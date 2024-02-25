@@ -231,25 +231,6 @@
         <input type="submit" value="Translate">
     </form>
 </div>
-<!--                        <div class="translate-container">-->
-<!--                            <form id="language-form" action="{% url 'translate_summary1' %}" method="get">-->
-<!--<div class="translate-button" id="target-language" name="target_language" onmouseover="showLanguages()" onmouseout="hideLanguages()">-->
-<!--    -->
-<!--</div>-->
-<!--<div class="language-dropdown" onmouseover="showLanguages()" onmouseout="hideLanguages()">-->
-<!--<div class="language-item" type="submit" onclick="changeLanguage('en')">English</div>-->
-<!--<div class="language-item" type="submit" onclick="changeLanguage('es')">Spanish</div>-->
-<!--<div class="language-item" type="submit" onclick="changeLanguage('fr')">French</div>-->
-<!--&lt;!&ndash; Add more languages as needed &ndash;&gt;-->
-<!--</div>-->
-<!--                            </form>-->
-<!--</div>-->
-<script>
-    function toggleLanguageMenu() {
-        var languageMenu = document.getElementById('language-menu');
-        languageMenu.style.display = (languageMenu.style.display === 'none' || languageMenu.style.display === '') ? 'block' : 'none';
-    }
-</script>
 
                         <button id="deletebutton" title="Delete" onclick="deleteOutput()" style="margin-left:10%; border: 1px solid green; background-color: green; color:white"><i class="fas fa-trash-alt larger-icon"></i></button>
                         </div>
@@ -356,7 +337,6 @@
             text.style.height=(textarea.scrollHeight + 2)+'px';
 
         }
-
               function processText() {
                 var inputText = document.getElementById('inputText').value;
                 var processedText = '' + inputText.toUpperCase();
@@ -377,11 +357,6 @@
                 deleteButton.style.display = 'none';
               }
 
-              <!-- Add this script to your HTML file -->
-
-
-
-                  // Function to display PDF name
                   function displayFileName() {
                       var input = document.getElementById('file-input');
                       var fileName = input.files[0].name;
@@ -391,7 +366,10 @@
                       pdfNameElement.innerHTML = 'Selected PDF: ' + fileName;
                       pdfNameElement.style.display = 'block';
                   }
-
+                function toggleLanguageMenu() {
+                    var languageMenu = document.getElementById('language-menu');
+                    languageMenu.style.display = (languageMenu.style.display === 'none' || languageMenu.style.display === '') ? 'block' : 'none';
+                }
     </script>
 </body>
 </html>
