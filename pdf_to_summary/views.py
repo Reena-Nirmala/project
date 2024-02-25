@@ -11,9 +11,27 @@ def summarize_pdf_api(pdf_path, pages_to_summarize, api_url, api_token):
     headers = {"Authorization": f"Bearer {api_token}"}
 
     # Extract text only from the specified page
+    # with open(pdf_path, 'rb') as file:
+    #     pdf_reader = PdfReader(file)
+    #     text = pdf_reader.pages[int(pages_to_summarize) - 1].extract_text()
+    pages_range = [int(page) for page in pages_to_summarize.split('-')] if '-' in pages_to_summarize else [int(pages_to_summarize)]
+
     with open(pdf_path, 'rb') as file:
         pdf_reader = PdfReader(file)
-        text = pdf_reader.pages[int(pages_to_summarize) - 1].extract_text()
+        extracted_text = []
+
+        for page_number in pages_range:
+            page_index = page_number - 1  # Adjust for 0-based index in PyPDF2
+            if 0 <= page_index < len(pdf_reader.pages):
+                text = pdf_reader.pages[page_index].extract_text()
+                if not text.strip() :
+                    return "Empty page"
+                else:
+                    extracted_text.append(text.strip())
+            else:
+                # Page not available, handle accordingly
+                return "Page not found"
+    
 
     max_length = 700  # Adjust as needed
 
