@@ -245,7 +245,8 @@
 
             <form id="pdfForm" action="{% url 'summarize' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <label><b>Page to Summarize:</b> <input type="number" name="maxL" min="1" placeholder="Enter page number"></label>
+<!--     <label><b>Page to Summarize:</b> <input type="number" name="maxL" min="1" placeholder="Enter page number"></label> -->
+            <label><b>Pages to Summarize:</b> <input type="text" name="maxL" placeholder="Enter page number or range (e.g., 1-5)"></label>
 
 
     <div id="upload-container">
