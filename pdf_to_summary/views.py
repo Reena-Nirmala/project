@@ -34,7 +34,7 @@ def summarize_pdf_api(pdf_path, pages_to_summarize, api_url, api_token):
     
 
     max_length = 700  # Adjust as needed
-
+    text= "\n".join(extracted_text)
     response = requests.post(api_url, headers=headers, json={
         "inputs": text,
         "parameters": {"min_length": max_length // 4, "max_length": max_length},
