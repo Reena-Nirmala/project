@@ -9,8 +9,8 @@ class GrammarCheck(models.Model):
     # user = models.ForeignKey(User, on_delete=models.CASCADE)
     input_text = models.TextField()
     corrected_text = models.TextField()
-    # user1 = models.IntegerField(default=0)
-    # created_at = models.DateTimeField(default=timezone.now, editable=False)
+    user1 = models.IntegerField(default=0)
+    created_at = models.DateTimeField(default=timezone.now, editable=False)
     # created_at = models.DateTimeField(auto_now_add=True)
 
 
