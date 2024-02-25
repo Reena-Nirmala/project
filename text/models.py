@@ -2,7 +2,7 @@
 
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils import timezone
+# from django.utils import timezone
 
 
 class TextSummary(models.Model):
@@ -11,7 +11,7 @@ class TextSummary(models.Model):
     generated_summary = models.TextField()
     user1 = models.IntegerField(default=0)
 
-    created_at = models.DateTimeField(default=timezone.now, editable=False)
+    # created_at = models.DateTimeField(default=timezone.now, editable=False)
 
     def __str__(self):
         return f'Summary for {self.user1}'
