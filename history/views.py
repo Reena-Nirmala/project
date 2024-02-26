@@ -30,4 +30,8 @@ def history(request):
     # Return both types of objects to the template
     grammars = GrammarCheck.objects.filter(user1=request.session.get('user_id'))
 
-    return render(request, 'history.html', {'text_summaries': text_summaries, 'pdf_documents': pdf_documents, 'grammars':grammars})
+    # return render(request, 'history.html', {'text_summaries': text_summaries, 'pdf_documents': pdf_documents, 'grammars':grammars})
+    if text_summaries or pdf_documents or grammars:
+        return render(request, 'history.html', {'text_summaries': text_summaries, 'pdf_documents': pdf_documents, 'grammars':grammars})
+    else:
+        return render(request,'empty.html')
