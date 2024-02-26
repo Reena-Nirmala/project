@@ -216,8 +216,7 @@
                 </div>
             </div>
             {% endfor %}
-        </div>
-        {% for grammar in grammars %}
+            {% for grammar in grammars %}
             <div class="history-card grammar" onclick="toggleCard(this)">
                 <h3>Grammar Correction</h3>
                 <div class="content">
@@ -230,6 +229,8 @@
                 </div>
             </div>
             {% endfor %}
+        </div>
+        
         </div>
         <script>
             function toggleCard(card) {
