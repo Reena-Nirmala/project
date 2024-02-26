@@ -12,10 +12,7 @@ class TextSummary(models.Model):
     user1 = models.IntegerField(default=0)
 
     created_at = models.DateTimeField(default=timezone.now, editable=False)
-    def save(self, *args, **kwargs):
-        # Set created_at to Indian Standard Time (IST)
-        self.created_at = timezone.now().astimezone(pytz.timezone('Asia/Kolkata'))
-        super().save(*args, **kwargs)
+    
 
     def __str__(self):
         return f'Summary for {self.user1}'
