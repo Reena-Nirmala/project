@@ -68,7 +68,7 @@
         }
 
         .navbar-horizontal {
-            background-color: green;
+            background-color: rgb(255, 255, 255);
             width: 100%;
             display: flex;
             align-items: center;
@@ -83,13 +83,20 @@
 
         .navbar-horizontal p {
             width: 40px;
-            color: white;
+            font-size: large;
+            color: green;
+            font-weight: bold;
+
+            font-family: cursive;
         }
 
         .navbar-horizontal span {
-            color: white;
+            color: green;
             font-weight: bold;
             text-align: center;
+            font-size: x-large;
+            font-family: 'Times New Roman', Times, serif;
+
             flex-grow: 1;
         }
         .history-text {
@@ -198,7 +205,7 @@
                 <h3>PDF Document</h3>
                 <div class="content">
                     <h3>Created at : {{ pdf_document.created_at }}</h3>
-                    
+
                     <h3>PDF File</h3>
                     {{ pdf_document.pdf_file }}
                     <h3>Pages to Summarize</h3>

@@ -125,7 +125,6 @@
       font-size: 24px;
       font-weight: bold;
       color: #3498db;
-<!-- animation: slideLeft 6s ease-in-out infinite alternate;   -->
   }
    </style>
 </head>
@@ -163,21 +162,15 @@
     </div>
 
 </div>
-    <!-- <div id="mainButton" onclick="toggleLeftPane()">Main Button</div> -->
-
     <div id="mainContent" style="background-color: white;">
 
-<!--<p style="color: green; font-size: 25px; font-family: 'Arial', 'Helvetica', sans-serif; text-align: center;">Write like a pro, everywhere you write.</p>-->
         <div class="top" style="background-color: green;">
             <div class="linesContainer">
                 <div >
 
                     <div id="control-panel">
-                        <!-- Clickable icons using Font Awesome -->
                         <h3 style="color: white; font-size:22px; text-align:center; position:fixed;"> <b>Text Summarizer </b></h3>
-                        <!-- <p style="margin-left: 30px;"> Short</p>
-                        <input type="range" min="0" max="100" value="50" id="line-length-slider">
-                        <p>Long</p> -->
+                        
                         <div id="but" style="display:flex; margin-left: 32%;margin-right: -32%;margin-top:1%;">
 
                  <a href='{% url "texttospeech" %}'><i class="fas fa-microphone larger-icon" id="microphonebutton" style="border: 1px solid green; background-color: green; color: white;"></i></a>
@@ -194,7 +187,6 @@
             <option value="te">Telugu</option>
             <option value="fr">French</option>
             <option value="de">German</option>
-            <!-- Add more language options as needed -->
         </select>
         <input type="submit" value="Translate">
     </form>
@@ -247,9 +239,7 @@
   }
 
   function changeLanguage(lang) {
-    // Implement your translation logic here
     console.log('Selected language:', lang);
-    // You can replace the console.log with actual translation code
   }
         document.getElementById('summarizeForm').addEventListener('submit', function () {
             var textareaValue = document.getElementById('inputText').value;
@@ -259,22 +249,17 @@
             sessionStorage.setItem('storedMaxL', maxLValue);
         });
         function closeNavbar() {
-            // Close the navbar when an item is clicked
             $('.navbar-toggle').click();
         }
-        // Your JavaScript code for microphone, translation, and profile buttons
         document.getElementById('microphoneButton').addEventListener('click', function () {
-            // Add your microphone functionality here
             alert('Microphone button clicked!');
         });
 
         document.getElementById('translateButton').addEventListener('click', function () {
-            // Add your translation functionality here
             alert('Translate button clicked!');
         });
 
         document.getElementById('profileButton').addEventListener('click', function () {
-            // Add your profile functionality here
             alert('Profile button clicked!');
         });
 
@@ -289,7 +274,6 @@
             dropdown.style.display = (dropdown.style.display === "block") ? "none" : "block";
         }
 
-        // Close the dropdown if the user clicks outside of it
         window.onclick = function(event) {
             if (!event.target.matches('#profileButton button')) {
                 var dropdown = document.getElementById("profileDropdown");
@@ -318,7 +302,6 @@
             var outputDiv = document.getElementById('output');
             outputDiv.innerText = '';
 
-            // Hide the delete button after deleting the content
             var deleteButton = document.getElementById('deletebutton');
 
         }

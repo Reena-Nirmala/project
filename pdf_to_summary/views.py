@@ -11,9 +11,27 @@ def summarize_pdf_api(pdf_path, pages_to_summarize, api_url, api_token):
     headers = {"Authorization": f"Bearer {api_token}"}
 
     # Extract text only from the specified page
+    # with open(pdf_path, 'rb') as file:
+    #     pdf_reader = PdfReader(file)
+    #     text = pdf_reader.pages[int(pages_to_summarize) - 1].extract_text()
+    pages_range = [int(page) for page in pages_to_summarize.split('-')] if '-' in pages_to_summarize else [int(pages_to_summarize)]
+
     with open(pdf_path, 'rb') as file:
         pdf_reader = PdfReader(file)
-        text = pdf_reader.pages[int(pages_to_summarize) - 1].extract_text()
+        extracted_text = []
+
+        for page_number in pages_range:
+            page_index = page_number - 1  # Adjust for 0-based index in PyPDF2
+            if 0 <= page_index < len(pdf_reader.pages):
+                text = pdf_reader.pages[page_index].extract_text()
+                if not text.strip() :
+                    return "Empty page"
+                else:
+                    extracted_text.append(text.strip())
+            else:
+                # Page not available, handle accordingly
+                return "Page not found"
+        text= "\n".join(extracted_text)
 
     max_length = 700  # Adjust as needed
 
@@ -32,7 +50,6 @@ def summarize_pdf_api(pdf_path, pages_to_summarize, api_url, api_token):
 from django.http import JsonResponse
 from django.shortcuts import render
 from .models import PdfDocument
-# from .utils import summarize_pdf_api
 
 def summarize(request):
     if request.method == 'POST' and request.FILES.get('file-input'):
@@ -48,12 +65,15 @@ def summarize(request):
             pdf_document = PdfDocument(user1=user_id,pdf_file=pdf_file, pages_to_summarize=pages_to_summarize)
 
 
-            
             pdf_document.save()   
 
             pdf_path = pdf_document.pdf_file.path
 
             summarized_text = summarize_pdf_api(pdf_path, pages_to_summarize, api_url, api_token)
+
+            if summarized_text=="Page not found":
+                return render(request, 'input.html',{'result':summarized_text})
+
 
             # pdf_document = PdfDocument(user1=user_id,pdf_file=pdf_file, pages_to_summarize=pages_to_summarize,summarized_text = summarized_text)
             # # pdf_document.
@@ -78,9 +98,7 @@ def texttospeech1(request):
     engine = pyttsx3.init()
     engine.setProperty('rate', rate)
     text = request.session.get('text_for_speech', '')
-    # Use the engine to speak the given text audio
     engine.say(text)
-    # Wait for the speech to finish
     engine.runAndWait()
     return render(request, 'input.html', {"result": text})
 
@@ -91,22 +109,17 @@ def language_translator1(text, target_language='en'):
     return translation.text
 
 def translate_summary1(request):
-    # Ensure 'summarized_text' is present in the session
     summarized_text = request.session.get('summarized_text', '')
 
     if summarized_text:
-        # Get the target language from the request parameters or use 'hi' as default
         target_language = request.GET.get('target_language', 'hi')
 
-        # If summarized_text is not None, proceed with translation
         translated_text = language_translator1(summarized_text, target_language)
 
-        # Set the translated text to a new session key
         request.session['translated_text'] = translated_text
 
         return render(request, 'input.html', {"input": summarized_text, "result": translated_text})
     else:
-        # If 'summarized_text' is not present, handle accordingly
         return render(request, 'input.html', {"result": "Summarized text not found in session"})
 
 
